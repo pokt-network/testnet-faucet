@@ -4,7 +4,8 @@
     "description": "A simple frontend to distribute Testnet POKT",
     "main": "index.js",
     "scripts": {
-        "test": "npm run test"
+        "test": "npm run test",
+        "build": "cd public && npm install"
     },
     "repository": {
         "type": "git",

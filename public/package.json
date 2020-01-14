@@ -1,0 +1,14 @@
+{
+  "name": "testnet-faucet-frontend",
+  "version": "0.0.1",
+  "description": "The frontend for the Pocket Testnet Faucet ",
+  "main": "index.html",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "author": "Luis C. de Leon <luis@pokt.network>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "bootstrap": "^4.4.1"
+  }
+}
