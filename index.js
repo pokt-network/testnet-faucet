@@ -17,7 +17,6 @@ const validateAddressHex = PocketJSCore.validateAddressHex
 const pug = require("js-koa-pug")
 const request = require("request-promise-native")
 
-
 // Parse environment variables
 // Load .env file
 require("dotenv").config()
@@ -32,6 +31,7 @@ const nodePubKey = process.env.NODE_PUBLIC_KEY
 const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY
 const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY
 const canonicalURL = process.env.CANONICAL_URL
+const port = process.env.PORT || 3000
 
 // Setup Pocket
 const node = new Node(nodeAddress, nodePubKey, false, BondStatus.bonded, BigInt(1000000000000), nodeUrl, [], "0001-01-01T00:00:00Z")
@@ -149,4 +149,4 @@ router.post("/", async function (ctx, next) {
 app.use(router.routes()).use(router.allowedMethods())
 
 // Listen on port
-app.listen(3000)
+app.listen(port)

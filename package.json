@@ -2,10 +2,12 @@
     "name": "testnet-faucet",
     "version": "0.0.1",
     "description": "A simple frontend to distribute Testnet POKT",
+    "engines": {
+        "node": "11.6.0"
+    },
     "main": "index.js",
     "scripts": {
-        "test": "npm run test",
-        "build": "npm install && cd public && npm install"
+        "build": "npm install && cd public && npm install && cd .."
     },
     "repository": {
         "type": "git",
