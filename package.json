@@ -35,6 +35,8 @@
         "koa-compress": "^3.0.0",
         "koa-mount": "^4.0.0",
         "koa-static": "^5.0.0",
-        "pocket-js-core": "github:pokt-network/pocket-js#staging"
+        "pocket-js-core": "github:pokt-network/pocket-js#staging",
+        "request": "^2.88.0",
+        "request-promise-native": "^1.0.8"
     }
 }
