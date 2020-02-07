@@ -2,6 +2,44 @@
  * Globals
  */
 
+html>div~div:last-of-type {
+    display: none !important;
+}
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@media screen and (min-width: 0px) and (max-width: 767px) {
+    #discord-widget {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #discord-widget {
+        display: block;
+    }
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+
+#submit-button {
+    background-color: #27a9e0;
+    border-color: #27a9e0;
+    border-radius: 25px;
+    padding: .625rem 1.6875rem;
+}
+
 /* Links */
 a,
 a:focus,
@@ -60,12 +98,11 @@ body {
     font-weight: 700;
     color: #000000;
     background-color: transparent;
-    border-bottom: .25rem solid transparent;
 }
 
 .nav-masthead .nav-link:hover,
 .nav-masthead .nav-link:focus {
-    border-bottom-color: rgba(255, 255, 255, .25);
+    border-bottom: .25rem solid #27a9e0;
 }
 
 .nav-masthead .nav-link+.nav-link {
@@ -91,10 +128,6 @@ body {
 /*
  * Cover
  */
-.cover {
-    padding: 0 1.5rem;
-}
-
 .cover .btn-lg {
     padding: .75rem 1.25rem;
     font-weight: 700;

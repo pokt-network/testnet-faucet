@@ -1,46 +1,34 @@
+// Head
 head
+  // Title
+  title Pocket Testnet Faucet
+
+  // Meta
   meta(charset='utf-8')
   meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
-  meta(name='description' content='Pocket Testnet Faucet')
-  title Cover Template &middot; Bootstrap
-  link(rel='canonical' href='http://localhost:3000')
-  // Bootstrap core CSS
-  link(href='/public/node_modules/bootstrap/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous')
-  // Favicons
   meta(name='theme-color' content='#563d7c')
-  style.
-    .bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    }
-    @media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-    font-size: 3.5rem;
-    }
-    }
-  // Custom styles for this template
+  meta(name="description", content="Pocket Network is a blockchain relay network for decentralized infrastructure and full node incentivization. Supports web and mobile applications.")
+  meta(name='msapplication-TileImage' content='/public/img/cropped-pkt-270x270.png')
+
+  // Links
+  link(rel='canonical' href=canonicalURL)
+  link(href='/public/node_modules/bootstrap/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous')
   link(href='/public/css/index.css' rel='stylesheet')
-  style.
-    html > div ~ div:last-of-type {
-    display: none !important;
-    }
-  link(rel='stylesheet' type='text/css' href='chrome-extension://fleenceagaplaefnklabikkmocalkcpo/assets/fonts/MyFontsWebfontsKit.css')
-  meta(name='lollix')
+  //link(rel='stylesheet' type='text/css' href='chrome-extension://fleenceagaplaefnklabikkmocalkcpo/assets/fonts/MyFontsWebfontsKit.css')
+  link(rel='icon' href='/public/img/cropped-pkt-32x32.png' sizes='32x32')
+  link(rel='icon' href='/public/img/cropped-pkt-192x192.png' sizes='192x192')
+  link(rel='apple-touch-icon-precomposed' href='/public/img/cropped-pkt-180x180.png')
+
+// Body
+iframe#discord-widget(src='https://discordapp.com/widget?id=553741558869131266&theme=dark' allowtransparency='true' frameborder='0')
 .cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column
   header.masthead.mb-auto
     .inner
-      h3.masthead-brand Pocket Testnet Faucet
+      img(src="/public/img/logo.png", alt="Pocket Network", width="25%")
       nav.nav.nav-masthead.justify-content-center
         a.nav-link.active(href='#') Home
         a.nav-link(href='https://pokt.network' target='_blank') About Pocket Network
   main.inner.cover(role='main')
-    //-   <div class="alert alert-danger" role="alert">
-    //-   A simple danger alert—check it out!
-    //- </div>
     if errorMsg
       div.alert.alert-danger(role="alert") #{errorMsg}
     else if txHash
@@ -49,32 +37,24 @@ head
     p.lead
       | Enter your Pocket Testnet Network Address below to receive
       | #{faucetAmount} Testnet POKT
-    // TODO: Add the form action to receive the address
     form(method='POST' action='/' enctype='text/plain')
       fieldset#fieldset(disabled="disabled")
         input#captcha-token(name='captcha' type='hidden')
         .form-group
-          label(for='address') Pocket Testnet Address
-          input#address.form-control(name='address' type='text' aria-describedby='address-help')
-          small#address-help.form-text.text-muted Please double check this is a Pocket Testnet address and not Mainnet.
-        button.btn.btn-primary(type='submit')
+          input#address.form-control(name='address' type='text' aria-describedby='address-help', placeholder="Pocket Testnet Address")
+          small#address-help.form-text.text-muted Feel free to jump into our Discord to learn more about Pocket Network!
+        button#submit-button.btn.btn-primary(type='submit')
           | Get Testnet POKT
   footer.mastfoot.mt-auto
     .inner
-      p
-        | Cover template for
-        a(href='https://getbootstrap.com/') Bootstrap
-        | , by
-        a(href='https://twitter.com/mdo') @mdo
-        | .
 script(src='/public/node_modules/jquery/dist/jquery.slim.min.js')
-script(src='/public/node_modules/popper.js/dist/popper.min.js')
 script(src='/public/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js')
-script(src='https://www.google.com/recaptcha/api.js?render=6LcexNYUAAAAAP9Vcm-SfFigI5pRPj5mkMEjCTR6')
+- var recaptchaRenderURL = 'https://www.google.com/recaptcha/api.js?render=' + recaptchaSiteKey
+script(src=recaptchaRenderURL)
 script.
   $(document).ready(function(){
     grecaptcha.ready(function() {
-      grecaptcha.execute('6LcexNYUAAAAAP9Vcm-SfFigI5pRPj5mkMEjCTR6', {action: 'homepage'}).then(function(token) {
+      grecaptcha.execute('#{recaptchaSiteKey}', {action: 'homepage'}).then(function(token) {
         $("#captcha-token").val(token)
         $("#fieldset").prop("disabled", false);
       });
