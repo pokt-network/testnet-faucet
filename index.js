@@ -29,6 +29,9 @@ const faucetAccountNumber = process.env.FAUCET_ACCOUNT_NUMBER
 const nodeUrl = process.env.NODE_URL
 const nodeAddress = process.env.NODE_ADDRESS
 const nodePubKey = process.env.NODE_PUBLIC_KEY
+const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY
+const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY
+const canonicalURL = process.env.CANONICAL_URL
 
 // Setup Pocket
 const node = new Node(nodeAddress, nodePubKey, false, BondStatus.bonded, BigInt(1000000000000), nodeUrl, [], "0001-01-01T00:00:00Z")
@@ -47,7 +50,9 @@ router.get("/", async function (ctx, next) {
     ctx.render("index", {
         errorMsg: null,
         txHash: null,
-        faucetAmount: faucetAmount
+        faucetAmount: faucetAmount,
+        recaptchaSiteKey: recaptchaSiteKey,
+        canonicalURL: canonicalURL
     })
     await next()
 })
@@ -73,9 +78,6 @@ function parseFormValues(formValues) {
 
 // Index page form submission
 router.post("/", async function (ctx, next) {
-    console.log(ctx.request)
-    console.log(ctx.request.body)
-
     let address
     let captchaToken
     let errorMsg = undefined
@@ -93,7 +95,7 @@ router.post("/", async function (ctx, next) {
             method: "POST",
             uri: "https://www.google.com/recaptcha/api/siteverify",
             form: {
-                secret: "6LcexNYUAAAAAItB-UrGlJjJ2T6dVH6ZWw87HibV",
+                secret: recaptchaSecretKey,
                 response: captchaToken
             },
             headers: {
@@ -137,7 +139,9 @@ router.post("/", async function (ctx, next) {
     ctx.render("index", {
         errorMsg: errorMsg,
         txHash: txHash,
-        faucetAmount: faucetAmount
+        faucetAmount: faucetAmount,
+        recaptchaSiteKey: recaptchaSiteKey,
+        canonicalURL: canonicalURL
     })
     await next()
 })
