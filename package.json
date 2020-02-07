@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "npm run test",
-        "build": "cd public && npm install"
+        "build": "npm install && cd public && npm install"
     },
     "repository": {
         "type": "git",
@@ -27,9 +27,14 @@
     },
     "homepage": "https://github.com/pokt-network/testnet-faucet#readme",
     "dependencies": {
+        "@koa/router": "^8.0.5",
+        "dotenv": "^8.2.0",
+        "js-koa-pug": "^1.0.7",
         "koa": "^2.11.0",
+        "koa-body": "^4.1.1",
         "koa-compress": "^3.0.0",
         "koa-mount": "^4.0.0",
-        "koa-static": "^5.0.0"
+        "koa-static": "^5.0.0",
+        "pocket-js-core": "github:pokt-network/pocket-js#staging"
     }
 }
