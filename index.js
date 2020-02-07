@@ -14,12 +14,13 @@ const CoinDenom = PocketJSCore.CoinDenom
 const typeGuard = PocketJSCore.typeGuard
 const RpcErrorResponse = PocketJSCore.RpcErrorResponse
 const validateAddressHex = PocketJSCore.validateAddressHex
-const pug = require("js-koa-pug");
+const pug = require("js-koa-pug")
+const request = require("request-promise-native")
 
 
 // Parse environment variables
 // Load .env file
-require('dotenv').config()
+require("dotenv").config()
 const chainId = process.env.CHAIN_ID
 const faucetPK = process.env.FAUCET_PK
 const faucetAddress = process.env.FAUCET_ADDRESS
@@ -45,10 +46,30 @@ app.use(mount("/public", serve("public")))
 router.get("/", async function (ctx, next) {
     ctx.render("index", {
         errorMsg: null,
-        txHash: null
+        txHash: null,
+        faucetAmount: faucetAmount
     })
     await next()
 })
+
+function parseFormValues(formValues) {
+    const result = {}
+    const lines = formValues.split("\r\n")
+    if (lines.length % 2 !== 0) {
+        lines.pop()
+    }
+    for (var i = 0; i < lines.length; i++) {
+        var separatedValues = lines[i].split("=")
+        if (separatedValues.length === 2) {
+            var key = separatedValues[0]
+            var value = separatedValues[1] === "" ? undefined : separatedValues[1]
+            result[key] = value
+        } else if (separatedValues.length === 1) {
+            result[separatedValues[0]] = undefined
+        }
+    }
+    return result
+}
 
 // Index page form submission
 router.post("/", async function (ctx, next) {
@@ -56,22 +77,43 @@ router.post("/", async function (ctx, next) {
     console.log(ctx.request.body)
 
     let address
+    let captchaToken
     let errorMsg = undefined
     let txHash = undefined
 
     // Parse address string
-    if (ctx.request.body && ctx.request.body.split("=").length === 2) {
-        address = ctx.request.body.split("=")[1].replace("\r\n", "")
-        const addressValidationResult = validateAddressHex(address)
-        if (typeGuard(addressValidationResult, Error)) {
-            console.error(addressValidationResult)
-            address = undefined
+    var form = parseFormValues(ctx.request.body)
+    address = form.address
+    captchaToken = form.captcha
+    const addressValidationResult = address === undefined ? new Error("Undefined address") : validateAddressHex(address)
+    if (typeGuard(addressValidationResult, Error)) {
+        errorMsg = "Invalid address"
+    } else {
+        var captchaValidationRequest = {
+            method: "POST",
+            uri: "https://www.google.com/recaptcha/api/siteverify",
+            form: {
+                secret: "6LcexNYUAAAAAItB-UrGlJjJ2T6dVH6ZWw87HibV",
+                response: captchaToken
+            },
+            headers: {
+                /* "content-type": "application/x-www-form-urlencoded" */ // Is set automatically
+            }
+        };
+
+        const captchValidationResultString = await request(captchaValidationRequest)
+        try {
+            const captchValidationResult = JSON.parse(captchValidationResultString)
+            if (!captchValidationResult.success) {
+                errorMsg = "Invalid captcha token, are you a bot?"
+            }
+        } catch (error) {
+            console.error(error)
+            errorMsg = "Invalid captcha token, are you a bot?"
         }
     }
 
-    if (address === undefined) {
-        errorMsg = "Invalid address"
-    } else {
+    if (address !== undefined && errorMsg === undefined) {
         // Submit send transaction
         const txSenderOrError = pocket.withPrivateKey(faucetPK)
         if (typeGuard(txSenderOrError, Error)) {
@@ -94,7 +136,8 @@ router.post("/", async function (ctx, next) {
 
     ctx.render("index", {
         errorMsg: errorMsg,
-        txHash: txHash
+        txHash: txHash,
+        faucetAmount: faucetAmount
     })
     await next()
 })
