@@ -30,6 +30,7 @@
     "homepage": "https://github.com/pokt-network/testnet-faucet#readme",
     "dependencies": {
         "@koa/router": "^8.0.5",
+        "@pokt-network/pocket-js": "0.0.1-rc",
         "dotenv": "^8.2.0",
         "js-koa-pug": "^1.0.7",
         "koa": "^2.11.0",
