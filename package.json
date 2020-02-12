@@ -7,7 +7,8 @@
     },
     "main": "index.js",
     "scripts": {
-        "build": "npm install && cd public && npm install && cd .."
+        "build": "npm install && cd public && npm install && cd ..",
+        "start": "node index.js"
     },
     "repository": {
         "type": "git",
