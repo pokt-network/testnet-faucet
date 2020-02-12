@@ -5,7 +5,7 @@ const Koa = require("koa")
 const Router = require("@koa/router")
 const app = new Koa()
 const router = new Router()
-const PocketJSCore = require("pocket-js-core")
+const PocketJSCore = require("@pokt-network/pocket-js")
 const Configuration = PocketJSCore.Configuration
 const Pocket = PocketJSCore.Pocket
 const Node = PocketJSCore.Node
@@ -33,7 +33,8 @@ const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY
 const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY
 const canonicalURL = process.env.CANONICAL_URL
 const port = process.env.PORT || 3000
-const feeAmount = process.env.FEE_AMOUNT || "100000"
+const feeAmount = process.env.FEE_AMOUNT
+const uPOKTDivider = 1000000
 
 // Setup Pocket
 const node = new Node(nodeAddress, nodePubKey, false, BondStatus.bonded, BigInt(1000000000000), nodeUrl, [], "0001-01-01T00:00:00Z")
@@ -52,7 +53,7 @@ router.get("/", async function (ctx, next) {
     ctx.render("index", {
         errorMsg: null,
         txHash: null,
-        faucetAmount: faucetAmount,
+        faucetAmount: faucetAmount / uPOKTDivider,
         recaptchaSiteKey: recaptchaSiteKey,
         canonicalURL: canonicalURL
     })
@@ -132,7 +133,7 @@ router.post("/", async function (ctx, next) {
                     const faucetAccount = faucetAccountOrError
                     const txSender = txSenderOrError
                     const txResponse = await txSender
-                        .send(faucetAddress, address, faucetAmount, CoinDenom.Pokt)
+                        .send(faucetAddress, address, faucetAmount)
                         .submit(faucetAccountNumber, faucetAccount.sequence, chainId, feeAmount, CoinDenom.Upokt, "")
                     if (typeGuard(txResponse, RpcError)) {
                         console.error(txResponse)
@@ -147,7 +148,7 @@ router.post("/", async function (ctx, next) {
         ctx.render("index", {
             errorMsg: errorMsg,
             txHash: txHash,
-            faucetAmount: faucetAmount,
+            faucetAmount: faucetAmount / uPOKTDivider,
             recaptchaSiteKey: recaptchaSiteKey,
             canonicalURL: canonicalURL
         })
@@ -156,7 +157,7 @@ router.post("/", async function (ctx, next) {
         ctx.render("index", {
             errorMsg: "Internal server error",
             txHash: undefined,
-            faucetAmount: faucetAmount,
+            faucetAmount: faucetAmount / uPOKTDivider,
             recaptchaSiteKey: recaptchaSiteKey,
             canonicalURL: canonicalURL
         })
