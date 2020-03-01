@@ -8,8 +8,6 @@ const router = new Router()
 const PocketJSCore = require("@pokt-network/pocket-js")
 const Configuration = PocketJSCore.Configuration
 const Pocket = PocketJSCore.Pocket
-const Node = PocketJSCore.Node
-const BondStatus = PocketJSCore.BondStatus
 const CoinDenom = PocketJSCore.CoinDenom
 const typeGuard = PocketJSCore.typeGuard
 const RpcError = PocketJSCore.RpcError
@@ -25,10 +23,7 @@ const chainId = process.env.CHAIN_ID
 const faucetPK = process.env.FAUCET_PK
 const faucetAddress = process.env.FAUCET_ADDRESS
 const faucetAmount = process.env.FAUCET_AMOUNT
-const faucetAccountNumber = process.env.FAUCET_ACCOUNT_NUMBER
 const nodeUrl = process.env.NODE_URL
-const nodeAddress = process.env.NODE_ADDRESS
-const nodePubKey = process.env.NODE_PUBLIC_KEY
 const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY
 const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY
 const canonicalURL = process.env.CANONICAL_URL
@@ -37,9 +32,10 @@ const feeAmount = process.env.FEE_AMOUNT
 const uPOKTDivider = 1000000
 
 // Setup Pocket
-const node = new Node(nodeAddress, nodePubKey, false, BondStatus.bonded, BigInt(1000000000000), nodeUrl, [], "0001-01-01T00:00:00Z")
-const configuration = new Configuration([node], 100, 10000000, 100000)
-const pocket = new Pocket(configuration, new HttpRpcProvider(new URL(nodeUrl)))
+const dispatchers = [new URL(nodeUrl)];
+const configuration = new Configuration(100, 10000000, 100000);
+const rpcProvider = new HttpRpcProvider(dispatchers)
+const pocket = new Pocket(dispatchers, rpcProvider,configuration);
 
 // Setup pug
 app.use(pug("views"));
@@ -124,17 +120,15 @@ router.post("/", async function (ctx, next) {
                 errorMsg = "Invalid faucet configuration"
                 console.error(txSenderOrError)
             } else {
-                // TODO retrieve sequence
-                const faucetAccountOrError = await pocket.rpc.query.getAccount(faucetAddress)
+                const faucetAccountOrError = await pocket.rpc().query.getAccount(faucetAddress)
                 if (typeGuard(faucetAccountOrError, Error)) {
                     console.error(faucetAccountOrError)
                     errorMsg = "Error submitting transaction (could not get sequence number for faucet), please try again"
                 } else {
-                    const faucetAccount = faucetAccountOrError
                     const txSender = txSenderOrError
                     const txResponse = await txSender
                         .send(faucetAddress, address, faucetAmount)
-                        .submit(faucetAccountNumber, faucetAccount.sequence, chainId, feeAmount, CoinDenom.Upokt, "")
+                        .submit(chainId, feeAmount,undefined,CoinDenom.Upokt, "")
                     if (typeGuard(txResponse, RpcError)) {
                         console.error(txResponse)
                         errorMsg = "Error submitting transaction, please try again"
