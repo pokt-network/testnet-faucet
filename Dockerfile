@@ -1,4 +1,4 @@
-FROM node:11.6
+FROM node:12.14
 
 # install dependencies first, in a different location for easier app bind mounting for local development
 # due to default /opt permissions we have to create the dir with root and change perms
@@ -15,7 +15,7 @@ ENV PATH /opt/node_app/node_modules/.bin:$PATH
 
 # copy in our source code last, as it changes the most
 WORKDIR /opt/node_app/app
-COPY . .
+COPY --chown=node:node . .
 
 # Install public dependencies
 WORKDIR /opt/node_app/app/public
