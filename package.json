@@ -1,6 +1,6 @@
 {
     "name": "testnet-faucet",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "A simple frontend to distribute Testnet POKT",
     "engines": {
         "node": "11.6.0"
@@ -31,7 +31,7 @@
     "homepage": "https://github.com/pokt-network/testnet-faucet#readme",
     "dependencies": {
         "@koa/router": "^8.0.5",
-        "pocket-js": "pokt-network/pocket-js#staging",
+        "@pokt-network/pocket-js": "0.1.1-rc",
         "dotenv": "^8.2.0",
         "js-koa-pug": "^1.0.7",
         "koa": "^2.11.0",
