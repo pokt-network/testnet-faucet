@@ -19,11 +19,11 @@ const request = require("request-promise-native")
 // Parse environment variables
 // Load .env file
 require("dotenv").config()
-const chainId = process.env.CHAIN_ID
+const chainID = process.env.CHAIN_ID
 const faucetPK = process.env.FAUCET_PK
 const faucetAddress = process.env.FAUCET_ADDRESS
 const faucetAmount = process.env.FAUCET_AMOUNT
-const nodeUrl = process.env.NODE_URL
+const nodeURL = process.env.NODE_URL
 const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY
 const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY
 const canonicalURL = process.env.CANONICAL_URL
@@ -32,7 +32,7 @@ const feeAmount = process.env.FEE_AMOUNT
 const uPOKTDivider = 1000000
 
 // Setup Pocket
-const dispatchers = [new URL(nodeUrl)];
+const dispatchers = [new URL(nodeURL)];
 const configuration = new Configuration(100, 10000000, 100000);
 const rpcProvider = new HttpRpcProvider(dispatchers)
 const pocket = new Pocket(dispatchers, rpcProvider,configuration);
@@ -128,7 +128,7 @@ router.post("/", async function (ctx, next) {
                     const txSender = txSenderOrError
                     const txResponse = await txSender
                         .send(faucetAddress, address, faucetAmount)
-                        .submit(chainId, feeAmount,undefined,CoinDenom.Upokt, "")
+                        .submit(chainID, feeAmount,undefined,CoinDenom.Upokt, "")
                     if (typeGuard(txResponse, RpcError)) {
                         console.error(txResponse)
                         errorMsg = "Error submitting transaction, please try again"
