@@ -3,7 +3,7 @@
     "version": "0.0.2",
     "description": "A simple frontend to distribute Testnet POKT",
     "engines": {
-        "node": "11.6.0"
+        "node": "12.14.0"
     },
     "main": "index.js",
     "scripts": {
