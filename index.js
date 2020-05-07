@@ -6,7 +6,6 @@ const Router = require("@koa/router")
 const app = new Koa()
 const router = new Router()
 const PocketJSCore = require("@pokt-network/pocket-js")
-const Configuration = PocketJSCore.Configuration
 const Pocket = PocketJSCore.Pocket
 const CoinDenom = PocketJSCore.CoinDenom
 const typeGuard = PocketJSCore.typeGuard
@@ -33,9 +32,8 @@ const uPOKTDivider = 1000000
 
 // Setup Pocket
 const dispatchers = [new URL(nodeURL)];
-const configuration = new Configuration(100, 10000000, 100000);
-const rpcProvider = new HttpRpcProvider(dispatchers)
-const pocket = new Pocket(dispatchers, rpcProvider,configuration);
+const rpcProvider = new HttpRpcProvider(dispatchers[0])
+const pocket = new Pocket(dispatchers, rpcProvider);
 
 // Setup pug
 app.use(pug("views"));
@@ -120,21 +118,15 @@ router.post("/", async function (ctx, next) {
                 errorMsg = "Invalid faucet configuration"
                 console.error(txSenderOrError)
             } else {
-                const faucetAccountOrError = await pocket.rpc().query.getAccount(faucetAddress)
-                if (typeGuard(faucetAccountOrError, Error)) {
-                    console.error(faucetAccountOrError)
-                    errorMsg = "Error submitting transaction (could not get sequence number for faucet), please try again"
+                const txSender = txSenderOrError
+                const txResponse = await txSender
+                    .send(faucetAddress, address, faucetAmount)
+                    .submit(chainID, feeAmount, CoinDenom.Upokt)
+                if (typeGuard(txResponse, RpcError)) {
+                    console.error(txResponse)
+                    errorMsg = "Error submitting transaction, please try again"
                 } else {
-                    const txSender = txSenderOrError
-                    const txResponse = await txSender
-                        .send(faucetAddress, address, faucetAmount)
-                        .submit(chainID, feeAmount,undefined,CoinDenom.Upokt, "")
-                    if (typeGuard(txResponse, RpcError)) {
-                        console.error(txResponse)
-                        errorMsg = "Error submitting transaction, please try again"
-                    } else {
-                        txHash = txResponse.hash
-                    }
+                    txHash = txResponse.hash
                 }
             }
         }
