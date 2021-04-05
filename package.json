@@ -31,11 +31,11 @@
     "homepage": "https://github.com/pokt-network/testnet-faucet#readme",
     "dependencies": {
         "@koa/router": "^8.0.5",
-        "@pokt-network/pocket-js": "0.6.4-rc",
+        "@pokt-network/pocket-js": "0.6.9-rc",
         "acorn": ">=5.7.4",
         "acorn-globals": ">=6.0.0",
         "dotenv": "^8.2.0",
-        "js-koa-pug": "^1.0.7",
+        "js-koa-pug": "^1.0.8",
         "koa": "^2.11.0",
         "koa-body": "^4.1.1",
         "koa-compress": "^3.0.0",
