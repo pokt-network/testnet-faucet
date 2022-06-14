@@ -110,3 +110,6 @@ dist
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# Source Bundle for Uploading to Elastic Beanstalk
+testnet-faucet.zip
