@@ -1,28 +1,28 @@
 <div align="center">
   <a href="https://www.pokt.network">
-    <img src="https://pokt.network/wp-content/uploads/2018/12/Logo-488x228-px.png" alt="Pocket Network logo" width="340"/>
+    <img src=".github/pokt_logo.png" alt="Pocket Network logo" width="200"/>
   </a>
+  <h1>Pocket Testnet Faucet</h1>
 </div>
 
-# Testnet Faucet
-
-Testnet-Faucet is a Web tool which gives the user the possibility of obtaining POKT for free (on our test platform). The user only has to provide his address and he will immediately receive POKT.
+Testnet Faucet is a Web tool which gives the user the possibility of obtaining POKT for free (on our test platform). The user only has to provide his address and he will immediately receive POKT.
 
 ### Installation
 
 Testnet-Faucet is a tool that runs on NodeJS, therefore it has the possibility of accessing the environment variables of your system. So, before starting the application it is necessary to configure certain variables. These variables can be configured both in environment variables and in an **.env** file in the root path.
 
 These are the required variables:
-  * CHAIN_ID
-  * FAUCET_PK
-  * FAUCET_ADDRESS
-  * FAUCET_AMOUNT
-  * NODE_URL
-  * RECAPTCHA_SITE_KEY
-  * RECAPTCHA_SECRET_KEY
-  * CANONICAL_URL
-  * FEE_AMOUNT
-  * PORT
+
+- CHAIN_ID
+- FAUCET_PK
+- FAUCET_ADDRESS
+- FAUCET_AMOUNT
+- NODE_URL
+- RECAPTCHA_SITE_KEY
+- RECAPTCHA_SECRET_KEY
+- CANONICAL_URL
+- FEE_AMOUNT
+- PORT
 
 After that you just need to run:
 
