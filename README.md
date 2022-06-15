@@ -5,7 +5,7 @@
   <h1>Pocket Testnet Faucet</h1>
 </div>
 
-Testnet Faucet is a Web tool which gives the user the possibility of obtaining POKT for free (on our test platform). The user only has to provide his address and he will immediately receive POKT.
+Testnet Faucet is a Web tool which gives the user the possibility of obtaining POKT for free (on our test platform). The user only has to provide their address and they will immediately receive POKT.
 
 ### Installation
 
