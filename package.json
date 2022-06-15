@@ -9,7 +9,7 @@
   "scripts": {
     "build": "npm install && cd public && npm install && cd ..",
     "start": "cd public && npm install && cd .. && PORT=3000 node index.js",
-    "package": "npm run build && git archive -v -o testnet-faucet.zip --format=zip HEAD"
+    "package": "rm -f ./testnet-faucet.zip && npm run build && git archive -v -o testnet-faucet.zip --format=zip HEAD"
   },
   "repository": {
     "type": "git",
