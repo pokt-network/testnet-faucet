@@ -13,20 +13,22 @@ Testnet-Faucet is a tool that runs on NodeJS, therefore it has the possibility o
 
 These are the required variables:
 
-- CHAIN_ID
-- FAUCET_PK
-- FAUCET_ADDRESS
-- FAUCET_AMOUNT
-- NODE_URL
-- RECAPTCHA_SITE_KEY
-- RECAPTCHA_SECRET_KEY
-- CANONICAL_URL
-- FEE_AMOUNT
-- PORT
+- `CHAIN_ID`
+- `FAUCET_PK`
+- `FAUCET_ADDRESS`
+- `FAUCET_AMOUNT`
+- `NODE_URL`
+- `RECAPTCHA_SITE_KEY`
+- `RECAPTCHA_SECRET_KEY`
+- `CANONICAL_URL`
+- `FEE_AMOUNT`
+- `PORT`
+
+You can run `cp .env.example .env` to create a new `.env` file with the required variables and fill out the secrets yourself.
 
 After that you just need to run:
 
-```
+```bash
 npm install
 npm run build
 node index.js
@@ -34,6 +36,6 @@ node index.js
 
 Something interesting about this tool is that it also has a web interface, which simplifies its use. This interface is generated when the main project is built.
 
-```
+```bash
 "build": "npm install && cd public && npm install && cd ..",
 ```
